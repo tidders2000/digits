@@ -1,0 +1,17 @@
+{% extends "digits/base.html" %}
+
+{% block content %}
+
+<h1>Profile</h1>
+
+ {{user.first_name}}
+
+ {{user.username}}
+
+<div >
+
+  <a class="nav-link" href="{% url 'password_reset' %}" aria-disabled="true">Password Reset</a>
+</div>
+
+
+  {% endblock %}

@@ -1,0 +1,11 @@
+{% extends "digits/base.html" %}
+{% block content %}
+  <h6>Enter a 5-digit number:</h6>
+
+  <form method="post" action="{% url 'digits:start_display' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+  </form>
+
+{% endblock %}

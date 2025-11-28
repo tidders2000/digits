@@ -1,0 +1,61 @@
+
+{% extends "digits/base.html" %}
+{% block content %}
+  <h2>Your number: {{ user_number }}</h2>
+  <h3>Random number (will be visible for {{ commit_delay_seconds }} seconds):</h3>
+  <div id="random-number" style="font-size: 2rem; font-weight: bold;">{{ random_number }}</div>
+  <p id="countdown" style="  color: red;">Time left: {{ commit_delay_seconds }}s</p>
+
+  <script>
+    (function(){
+      var delay = {{ commit_delay_seconds }};
+      var signed = "{{ signed_payload|escapejs }}";
+      var user_number = "{{ user_number}}";
+      var commitUrl = "{{ commit_url }}";
+
+      var remaining = delay;
+      var countdownEl = document.getElementById('countdown');
+      var iv = setInterval(function(){
+        remaining -= 1;
+        countdownEl.textContent = "Time left: " + remaining + "s";
+        if(remaining <= 0){
+          clearInterval(iv);
+          // POST to commit endpoint (use CSRF token)
+          var csrftoken = (function() {
+              var name = 'csrftoken';
+              var cookieValue = null;
+              if (document.cookie && document.cookie !== '') {
+                  var cookies = document.cookie.split(';');
+                  for (var i = 0; i < cookies.length; i++) {
+                      var cookie = cookies[i].trim();
+                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                          break;
+                      }
+                  }
+              }
+              return cookieValue;
+          })();
+
+          $.ajax({
+            url: commitUrl,
+            type: "POST",
+            data: { signed_payload: signed },
+            headers: {'X-CSRFToken': csrftoken},
+            success: function(resp){
+                // redirect to list or show success message
+                if (resp.status === "ok") {
+                    window.location = "{% url 'digits:entry_list' %}";
+                } else {
+                    alert("Error: " + (resp.message || "unknown"));
+                }
+            },
+            error: function(xhr){
+              alert("Failed to store entry: " + xhr.statusText);
+            }
+          });
+        }
+      }, 1000);
+    })();
+  </script>
+{% endblock %}

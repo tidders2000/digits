@@ -1,0 +1,11 @@
+{% extends "digits/base.html" %}
+{% block content %}
+  <h2>Reveal result for Entry {{ entry.id }}</h2>
+  <p>User number: <strong>{{ entry.user_number }}</strong></p>
+  <p>Random number: <strong>{{ entry.random_number }}</strong></p>
+
+  <form method="post" action="{% url 'digits:delete_entry' entry.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary btn-lg">Delete this entry</button>
+  </form>
+{% endblock %}

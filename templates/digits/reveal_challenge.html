@@ -1,0 +1,13 @@
+{% extends "digits/base.html" %}
+{% block content %}
+  <h2>Reveal challenge for Entry {{ entry.id }}</h2>
+  {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
+  <p>Enter the characters at positions: {{ positions|join:", " }} (positions are 1..40)</p>
+  <form method="post" action="{% url 'digits:verify_challenge' entry.id %}">
+    {% csrf_token %}
+    <label  class="form-label">Char {{ positions.0 }}: <input name="char1" maxlength="1" required  class="form-control"></label><br>
+    <label  class="form-label">Char {{ positions.1 }}: <input name="char2" maxlength="1" required  class="form-control"></label><br>
+    <label  class="form-label">Char {{ positions.2 }}: <input name="char3" maxlength="1" required  class="form-control"></label><br>
+    <button type="submit" class="btn btn-primary btn-lg">Verify</button>
+  </form>
+{% endblock %}
