@@ -152,5 +152,5 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # DEFAULT_FROM_EMAIL = os.getenv("FIXED_RECIPIENT_EMAIL", "no-reply@yourdomain.com")
 
-LOGIN_REDIRECT_URL='/'
-LOGIN_URL=''
+LOGIN_REDIRECT_URL=''
+LOGIN_URL='start/'
