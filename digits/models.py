@@ -11,7 +11,7 @@ class Entry(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_number = models.CharField(max_length=5)     # user-supplied 5-digit
     random_number = models.CharField(max_length=5)   # system-generated 5-digit
-    security_string = models.CharField(max_length=40, default='abcdefghijklmnopqrstabcdefghijklmnopqrst')
+    security_string = models.CharField(max_length=40, default='heivow6295ke03HWPTCKEne9375me05gebtFW0TN')
     created_at = models.DateTimeField(auto_now_add=True)
     revealed = models.BooleanField(default=False)    # whether the reveal flow has happened
     # store challenge indices as comma separated "1,5,9" (1-based positions)
