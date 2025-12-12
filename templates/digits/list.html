@@ -2,19 +2,37 @@
 {% block content %}
   <h2>Stored entries</h2>
   <table  class="table table-striped">
-    <tr><th>ID</th><th>User number</th><th>Created</th><th>Revealed</th><th>Actions</th></tr>
+    <tr><th>ID</th><th>User number</th><th>Created</th><th>Revealed</th><th>Revealed On</th></th><th>Actions</th></tr>
     {% for e in entries %}
     <tr>
       <td>{{ e.id }}</td>
       <td>{{ e.user_number }}</td>
       <td>{{ e.created_at }}</td>
-      <td>{{ e.revealed }}</td>
       <td>
+         {% if e.revealed %}
+            Unlocked
+          {% else %}
+          Locked
+         {% endif %}
+        
+
+
+      </td>
+      <td>
+        {% if e.revealed %}
+        {{ e.challenge_created_at}}
+           {% endif %}
+      </td>
+      <td>
+           {% if e.revealed %}
+           Closed
+           {% else %}
         <a href="{% url 'digits:reveal_request' e.id %}">Request reveal</a>
+          {% endif %}
         {% if e.revealed %}
           <form method="post" action="{% url 'digits:delete_entry' e.id %}" style="display:inline">
             {% csrf_token %}
-            <button type="submit">Delete</button>
+            <button type="submit" class="btn btn-primary btn-sm">Delete</button>
           </form>
         {% endif %}
       </td>
